@@ -5,6 +5,7 @@ from app.db.session import get_db
 from app.db.models import Lead
 from app.schemas.lead import LeadCreate, LeadResponse
 from app.services.github import GitHubProvider
+from app.services.scorer import ProgressionEngine
 
 router = APIRouter(prefix="/leads", tags=["Leads"])
 
@@ -39,7 +40,9 @@ async def sync_github_leads(keyword: str = "fastapi", db: AsyncSession = Depends
         existing_lead = result.scalars().first()
 
         if not existing_lead:
-            db_lead = Lead(**lead.model_dump(exclude={"url"}), url=str(lead.url))
+            engine = ProgressionEngine()
+            calculated_score = engine.calculate_score(lead.tech_stack)
+            db_lead = Lead(**lead.model_dump(exclude={"url"}), url=str(lead.url), score=calculated_score)
             db.add(db_lead)
             saved_leads.append(db_lead)
 

@@ -10,6 +10,6 @@ class Lead(Base):
     title: Mapped[str] = mapped_column(String(255))
     url: Mapped[str] = mapped_column(String(255), unique=True, index=True)
     source: Mapped[str] = mapped_column(String(255), index=True)
-    tech__stack: Mapped[list[str]] = mapped_column(JSON, default=[])
+    tech_stack: Mapped[list[str]] = mapped_column(JSON, default=[])
     comfort_score: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(timezone.utc))

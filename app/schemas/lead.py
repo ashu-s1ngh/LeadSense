@@ -6,7 +6,7 @@ class LeadCreate(BaseModel):
     title: str
     url: HttpUrl
     source: str
-    tech__stack: list[str] = []
+    tech_stack: list[str] = []
 
 class LeadResponse(LeadCreate):
     id: int
