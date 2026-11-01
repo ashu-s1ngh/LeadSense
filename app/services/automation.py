@@ -1,7 +1,7 @@
 from app.services.github import GitHubProvider
 from app.services.scorer import ProgressionEngine
 from app.db.models import Lead
-from app.db.session import get_db as session
+from app.db.session import AsyncSessionLocal as session
 from sqlalchemy import select
 
 async def auto_sync_github_gigs():
