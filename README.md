@@ -93,7 +93,7 @@ This project is built on a 70/30 practical learning split—prioritizing 70% han
 
 ## 🗺️ Roadmap
 
-- [ ] Wire the "Force Sync Now" UI button to trigger immediate backend fetches.
+- [x] Wire the "Force Sync Now" UI button to trigger immediate backend fetches.
 - [ ] Expand scraping modules to include Upwork and Reddit pipelines.
 - [ ] Implement Discord webhooks for instant notifications on score 4+ gigs.
 - [ ] Transition from local web view to a native desktop application wrapper (Tauri/Electron).
