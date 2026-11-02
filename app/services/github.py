@@ -25,6 +25,7 @@ class GitHubProvider:
                         title=item["title"],
                         url=item["html_url"],
                         source="GitHub",
+                        author=item.get("user", {}).get("login", "Unknown"),
                         tech_stack=[keyword],
                     )
                     for item in data.get("items", [])

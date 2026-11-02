@@ -6,6 +6,7 @@ class LeadCreate(BaseModel):
     title: str
     url: HttpUrl
     source: str
+    author: Optional[str] = None
     tech_stack: list[str] = []
 
 class LeadResponse(LeadCreate):
