@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadSense | Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'app-dark': '#1C1C1E',
+                        'app-bg': '#F4F7F9',
+                        'card-blue': '#EAF3FA',
+                        'card-purple': '#EAE4F2',
+                        'card-green': '#E2F0E5',
+                        'card-yellow': '#F8F3DF',
+                        'text-muted': '#8A92A6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for main area */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #E2E8F0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex overflow-hidden font-sans bg-app-dark">
+        
+    <!-- Dark Sidebar -->
+    <aside class="w-24 h-full flex-shrink-0 flex flex-col items-center py-8 justify-between relative z-10">
+        <!-- Logo area -->
+        <div class="bg-[#F8F3DF] w-12 h-12 rounded-xl flex items-center justify-center mb-8 shadow-sm">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12h4l3-9 5 18 3-9h5"/>
+                </svg>
+            </div>
+
+            <!-- Nav Icons -->
+            <nav class="flex flex-col space-y-8 flex-grow mt-4">
+                <a href="#" class="text-white opacity-100 relative group">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <div class="absolute w-1 h-6 bg-white -left-6 top-0 rounded-r-md"></div>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </a>
+                <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </a>
+            </nav>
+
+            <!-- Bottom Icon -->
+        <a href="#" class="text-gray-500 hover:text-white transition-colors">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </a>
+    </aside>
+
+    <!-- Main White Container -->
+    <main class="bg-white flex-1 h-full rounded-l-[2.5rem] shadow-[-10px_0_30px_rgba(0,0,0,0.15)] overflow-y-auto custom-scrollbar flex flex-col relative z-0">
+        
+        <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto w-full flex-1">
+            
+            <!-- Header -->
+                <header class="flex justify-between items-center mb-10">
+                    <h1 class="text-3xl font-bold text-gray-900">Overview</h1>
+                    
+                    <div class="flex items-center space-x-6">
+                        <!-- Search -->
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" placeholder="Search..." class="bg-gray-50 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-200 w-48 transition-all">
+                        </div>
+                        
+                        <!-- Notifications -->
+                        <button class="relative text-gray-400 hover:text-gray-700">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                        </button>
+                        
+                        <!-- Profile -->
+                        <div class="flex items-center space-x-3 bg-gray-50 py-1.5 px-3 rounded-full cursor-pointer hover:bg-gray-100 transition-colors">
+                            <img src="https://ui-avatars.com/api/?name=Aashu&background=0D8ABC&color=fff&rounded=true" alt="Profile" class="w-8 h-8 rounded-full">
+                            <span class="text-sm font-medium text-gray-700">Aashu M.</span>
+                            <svg class="text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Section Titles -->
+                <div class="grid grid-cols-12 gap-8 mb-4">
+                    <div class="col-span-12 lg:col-span-6">
+                        <h2 class="text-lg font-semibold text-gray-900">Gig Pipeline</h2>
+                    </div>
+                    <div class="col-span-12 lg:col-span-6 flex justify-between items-center">
+                        <h2 class="text-lg font-semibold text-gray-900">Top Tech Stacks</h2>
+                        <button class="text-gray-400 hover:text-gray-700">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Top Row: Chart and Metric Cards -->
+                <div class="grid grid-cols-12 gap-6 mb-10">
+                    
+                    <!-- Chart Card -->
+                    <div class="col-span-12 lg:col-span-6 bg-card-blue rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between shadow-sm">
+                        <div class="flex justify-between items-start z-10 mb-6">
+                            <div>
+                                <h3 class="text-3xl font-bold text-gray-900 mb-1">1,483</h3>
+                                <p class="text-sm text-gray-600 font-medium">Total Gigs Scraped</p>
+                            </div>
+                            <div class="bg-gray-900 text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-lg">
+                                <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                                Live Sync
+                            </div>
+                        </div>
+                        
+                        <div class="flex-grow w-full relative z-10 h-32">
+                            <canvas id="pipelineChart"></canvas>
+                        </div>
+
+                        <div class="flex space-x-4 text-xs font-medium text-gray-400 mt-4 z-10">
+                            <span class="cursor-pointer hover:text-gray-800 transition">1H</span>
+                            <span class="cursor-pointer hover:text-gray-800 transition">24H</span>
+                            <span class="text-gray-900 font-bold cursor-pointer">1W</span>
+                            <span class="cursor-pointer hover:text-gray-800 transition">1M</span>
+                            <span class="cursor-pointer hover:text-gray-800 transition">1Y</span>
+                            <span class="cursor-pointer hover:text-gray-800 transition">ALL</span>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack Cards -->
+                    <div class="col-span-12 lg:col-span-6 grid grid-cols-3 gap-4">
+                        
+                        <!-- FastAPI Card -->
+                        <div class="bg-card-purple rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-900 mb-1">142</h4>
+                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-700">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-end mt-8">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">FA</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-600 bg-white/50 px-2 py-1 rounded-md">+ 12.4%</span>
+                            </div>
+                        </div>
+
+                        <!-- SQLAlchemy Card -->
+                        <div class="bg-card-green rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-900 mb-1">86</h4>
+                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-700">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-end mt-8">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">SA</span>
+                                </div>
+                                <span class="text-xs font-semibold text-green-600 bg-white/50 px-2 py-1 rounded-md">+ 8.1%</span>
+                            </div>
+                        </div>
+
+                        <!-- SQLite Card -->
+                        <div class="bg-card-yellow rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-900 mb-1">54</h4>
+                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-700">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                </button>
+                            </div>
+                            <div class="flex justify-between items-end mt-8">
+                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
+                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">SQ</span>
+                                </div>
+                                <span class="text-xs font-semibold text-gray-500 bg-white/50 px-2 py-1 rounded-md">- 0.4%</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Table and Automation Banner -->
+                <!-- Bottom Row: Table and Automation Banner -->
+                <div class="flex flex-col space-y-8">
+                    
+                    <!-- Data Table (Now Full Width) -->
+                    <div class="w-full">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">Latest Opportunities</h2>
+                            <div class="flex space-x-3">
+                                <span class="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 flex items-center">
+                                    Score: 4+ <svg class="ml-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                                <span class="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 flex items-center">
+                                    Top Matches <svg class="ml-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </span>
+                            </div>
+                        </div>
+
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-text-muted text-xs font-medium uppercase tracking-wider border-b border-gray-100">
+                                    <th class="pb-3 pl-2">Name</th>
+                                    <th class="pb-3">Source</th>
+                                    <th class="pb-3">Tech Stack</th>
+                                    <th class="pb-3 text-center">Score</th>
+                                    <th class="pb-3 text-right pr-4">Save</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-table-body" class="divide-y divide-gray-50">
+                                <!-- JavaScript will populate this -->
+                            </tbody>
+                        </table>
+
+                        <div class="flex justify-between items-center mt-6 border-t border-gray-100 pt-4 pb-2">
+                            <span class="text-sm font-medium text-gray-500" id="pagination-info">Showing 0 entries</span>
+                            <div class="flex space-x-2">
+                                <button id="prev-page" class="px-4 py-1.5 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm">Previous</button>
+                                <button id="next-page" class="px-4 py-1.5 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm">Next</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Automation Promo Banner (Now Horizontal) -->
+                    <div class="w-full">
+                        <div class="bg-app-dark rounded-3xl p-6 lg:px-10 lg:py-8 text-white relative overflow-hidden flex flex-col lg:flex-row justify-between items-center shadow-xl">
+                            <!-- Background Abstract shapes -->
+                            <svg class="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4 opacity-20" width="200" height="200" viewBox="0 0 200 200" fill="none">
+                                <path d="M50 0L200 150V200H0V50L50 0Z" fill="white"/>
+                                <circle cx="150" cy="50" r="40" stroke="white" stroke-width="2"/>
+                            </svg>
+
+                            <div class="relative z-10 flex-1 mb-6 lg:mb-0">
+                                <div class="inline-block border border-gray-600 bg-gray-800/50 rounded-full px-3 py-1 text-xs font-medium text-gray-300 mb-3 flex items-center w-max backdrop-blur-sm">
+                                    <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
+                                    Engine Active
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">
+                                    Automate your <span class="border-2 border-dashed border-gray-400 rounded-lg px-2 py-0.5">gig hunt</span>
+                                </h3>
+                                <p class="text-sm text-gray-400 font-medium max-w-2xl">
+                                    APScheduler background tasks are actively monitoring GitHub for issues matching your FastAPI and SQLite skill matrix.
+                                </p>
+                            </div>
+                            
+                            <div class="relative z-10 lg:ml-8 w-full lg:w-auto">
+                                <button class="bg-card-blue text-blue-900 font-semibold py-3 px-8 rounded-full w-full lg:w-max hover:bg-white transition-colors shadow-lg shadow-blue-900/20 whitespace-nowrap">
+                                    Force Sync Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let allLeads = [];
+        let currentPage = 1;
+        const rowsPerPage = 10;
+
+        async function loadLeadSenseData() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/leads'); 
+                allLeads = await response.json();
+                renderTable();
+            } catch (error) {
+                console.error("API error:", error);
+                document.getElementById('leads-table-body').innerHTML = '<tr><td colspan="5" class="py-8 text-red-500 text-center font-medium">Failed to connect to backend.</td></tr>';
+            }
+        }
+
+        function renderTable() {
+            const tableBody = document.getElementById('leads-table-body');
+            tableBody.innerHTML = ''; 
+
+            if (allLeads.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="py-8 text-gray-500 text-center">No gigs found in database.</td></tr>';
+                document.getElementById('pagination-info').innerText = 'Showing 0 entries';
+                return;
+            }
+
+            // Calculate pagination slice
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedLeads = allLeads.slice(startIndex, endIndex);
+
+            paginatedLeads.forEach(lead => {
+                const row = document.createElement('tr');
+                row.className = "hover:bg-gray-50 transition-colors group";
+                
+                let stack = lead.tech_stack;
+                try { stack = JSON.parse(lead.tech_stack).join(', '); } catch (e) {}
+
+                row.innerHTML = `
+                    <td class="py-4 pl-2 flex items-center">
+                        <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mr-4 text-gray-800">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </div>
+                        <div>
+                            <a href="${lead.url}" target="_blank" class="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">${lead.title}</a>
+                            <div class="flex items-center text-xs text-text-muted mt-1 space-x-2 font-medium">
+                                <!-- We use a fallback 'Unknown' until you add lead.author to your FastAPI backend -->
+                                <span>By ${lead.author || 'Unknown'}</span>
+                                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                <span>Synced ${new Date(lead.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-4 text-sm font-medium text-gray-700">${lead.source}</td>
+                    <td class="py-4 text-xs font-medium text-green-600">${stack}</td>
+                    <td class="py-4 text-center text-sm font-bold text-gray-900">${lead.comfort_score}</td>
+                    <td class="py-4 text-right pr-4">
+                        <button class="text-gray-300 hover:text-yellow-400 transition-colors">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            // Update button states and info text
+            const totalPages = Math.ceil(allLeads.length / rowsPerPage);
+            document.getElementById('pagination-info').innerText = `Showing ${startIndex + 1} to ${Math.min(endIndex, allLeads.length)} of ${allLeads.length} entries`;
+            
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage >= totalPages;
+        }
+
+        // Attach event listeners for pagination
+        document.getElementById('prev-page').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+
+        document.getElementById('next-page').addEventListener('click', () => {
+            const totalPages = Math.ceil(allLeads.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        });
+
+        // Boot up
+        document.addEventListener('DOMContentLoaded', loadLeadSenseData);
+    </script>
+</body>
+</html>
