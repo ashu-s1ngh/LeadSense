@@ -34,8 +34,8 @@
         * { box-sizing: border-box; }
         body { margin: 0; background: #eaf3fa; }
         .app-shell {
-            background-color: #eaf3fa;
-            background-image: linear-gradient(155deg, transparent 0 48%, rgba(131, 181, 215, .18) 48.1%, transparent 48.35%), linear-gradient(12deg, transparent 0 71%, rgba(131, 181, 215, .16) 71.1%, transparent 71.35%);
+            background-color: #17191c;
+            background-image: none;
         }
         .main-panel { box-shadow: -18px 0 36px rgba(23, 25, 28, .16); }
         .soft-card { box-shadow: 0 10px 25px rgba(68, 92, 109, .06); }
@@ -67,7 +67,7 @@
 </head>
 <body class="h-screen overflow-hidden font-sans text-ink">
     <div class="app-shell flex h-full min-h-full w-full">
-        <aside class="sidebar flex w-[94px] shrink-0 flex-col items-center py-7 text-white">
+        <aside class="sidebar flex w-[94px] shrink-0 flex-col items-center bg-ink py-7 text-white">
             <div class="sidebar-logo flex h-12 w-12 items-center justify-center rounded-2xl bg-butter text-ink shadow-lg shadow-black/10" aria-label="LeadSense logo">
                 <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2.5-7 4.5 14 2.5-7H21"/></svg>
             </div>
@@ -130,10 +130,10 @@
                                 </div>
                                 <span id="sync-status" class="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-[11px] font-semibold text-white"><i class="h-1.5 w-1.5 rounded-full bg-emerald-400"></i>Live sync</span>
                             </div>
-                            <div class="pointer-events-none absolute -bottom-1 left-0 right-0 h-[112px] opacity-80" aria-hidden="true">
+                            <div class="pointer-events-none absolute bottom-10 left-0 right-0 h-[100px] opacity-80" aria-hidden="true">
                                 <svg id="pipeline-chart" class="h-full w-full" viewBox="0 0 600 135" preserveAspectRatio="none"></svg>
                             </div>
-                            <div class="absolute bottom-5 left-6 right-6 z-10 flex justify-between text-[10px] font-bold tracking-wider text-slate-400"><span>MON</span><span>WED</span><span>FRI</span><span>SUN</span></div>
+                            <div class="absolute bottom-5 left-6 right-6 z-10 flex justify-between text-[10px] font-bold tracking-wider text-slate-500"><span>MON</span><span>WED</span><span>FRI</span><span>SUN</span></div>
                         </article>
 
                         <div id="stack" class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:col-span-6">
