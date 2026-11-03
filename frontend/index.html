@@ -1,390 +1,363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadSense | Overview</title>
+    <meta name="theme-color" content="#17191c">
+    <title>LeadSense | Opportunity overview</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['DM Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
                     },
                     colors: {
-                        'app-dark': '#1C1C1E',
-                        'app-bg': '#F4F7F9',
-                        'card-blue': '#EAF3FA',
-                        'card-purple': '#EAE4F2',
-                        'card-green': '#E2F0E5',
-                        'card-yellow': '#F8F3DF',
-                        'text-muted': '#8A92A6'
+                        ink: '#17191c',
+                        canvas: '#eaf3fa',
+                        mist: '#e5f2fb',
+                        lavender: '#ebe5f3',
+                        sage: '#e1f0e5',
+                        butter: '#f7f1dc'
                     }
                 }
             }
-        }
+        };
     </script>
     <style>
-        /* Custom scrollbar for main area */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        :root { color-scheme: light; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #eaf3fa; }
+        .app-shell {
+            background-color: #eaf3fa;
+            background-image: linear-gradient(155deg, transparent 0 48%, rgba(131, 181, 215, .18) 48.1%, transparent 48.35%), linear-gradient(12deg, transparent 0 71%, rgba(131, 181, 215, .16) 71.1%, transparent 71.35%);
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #E2E8F0;
-            border-radius: 10px;
+        .main-panel { box-shadow: -18px 0 36px rgba(23, 25, 28, .16); }
+        .soft-card { box-shadow: 0 10px 25px rgba(68, 92, 109, .06); }
+        .custom-scrollbar::-webkit-scrollbar { width: 7px; height: 7px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d7e1e8; border-radius: 99px; }
+        .nav-item { color: #7f858a; transition: color .2s, background .2s; }
+        .nav-item:hover, .nav-item.active { color: #fff; }
+        .nav-item.active::before { content: ''; position: absolute; left: -34px; top: 50%; width: 4px; height: 28px; border-radius: 0 5px 5px 0; background: #fff; transform: translateY(-50%); }
+        .table-row { transition: background .2s, transform .2s; }
+        .table-row:hover { background: #f8fafb; }
+        .score-pill { min-width: 34px; }
+        .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        .toast { transform: translateY(20px); opacity: 0; pointer-events: none; transition: all .25s ease; }
+        .toast.visible { transform: translateY(0); opacity: 1; }
+        .loading .sync-icon { animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 767px) {
+            .main-panel { border-radius: 28px 0 0 28px; }
+            .sidebar { width: 62px; }
+            .sidebar-logo { width: 38px; height: 38px; }
+            .nav-item.active::before { left: -17px; }
+            .sidebar-label, .sidebar-bottom { display: none; }
+            .main-panel { min-width: 0; }
+            .table-wrap { overflow-x: auto; }
+            .leads-table { min-width: 700px; }
         }
     </style>
 </head>
-<body class="h-screen w-screen flex overflow-hidden font-sans bg-app-dark">
-        
-    <!-- Dark Sidebar -->
-    <aside class="w-24 h-full flex-shrink-0 flex flex-col items-center py-8 justify-between relative z-10">
-        <!-- Logo area -->
-        <div class="bg-[#F8F3DF] w-12 h-12 rounded-xl flex items-center justify-center mb-8 shadow-sm">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 12h4l3-9 5 18 3-9h5"/>
-                </svg>
+<body class="h-screen overflow-hidden font-sans text-ink">
+    <div class="app-shell flex h-full min-h-full w-full">
+        <aside class="sidebar flex w-[94px] shrink-0 flex-col items-center py-7 text-white">
+            <div class="sidebar-logo flex h-12 w-12 items-center justify-center rounded-2xl bg-butter text-ink shadow-lg shadow-black/10" aria-label="LeadSense logo">
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2.5-7 4.5 14 2.5-7H21"/></svg>
             </div>
 
-            <!-- Nav Icons -->
-            <nav class="flex flex-col space-y-8 flex-grow mt-4">
-                <a href="#" class="text-white opacity-100 relative group">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    <div class="absolute w-1 h-6 bg-white -left-6 top-0 rounded-r-md"></div>
+            <nav class="mt-16 flex flex-1 flex-col items-center gap-8" aria-label="Primary navigation">
+                <a href="#overview" class="nav-item active relative" aria-label="Overview" title="Overview">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-white transition-colors">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                <a href="#opportunities" class="nav-item relative" aria-label="Opportunities" title="Opportunities">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2Z"/></svg>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-white transition-colors">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+                <a href="#analytics" class="nav-item relative" aria-label="Analytics" title="Analytics">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M10 19V4M16 19v-7M22 19H2"/></svg>
                 </a>
-                <a href="#" class="text-gray-500 hover:text-white transition-colors">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                </a>
-                <a href="#" class="text-gray-500 hover:text-white transition-colors">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <a href="#stack" class="nav-item relative" aria-label="Tech stack" title="Tech stack">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg>
                 </a>
             </nav>
 
-            <!-- Bottom Icon -->
-        <a href="#" class="text-gray-500 hover:text-white transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        </a>
-    </aside>
+            <button class="sidebar-bottom nav-item mb-2" aria-label="Sign out" title="Sign out">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
+            </button>
+        </aside>
 
-    <!-- Main White Container -->
-    <main class="bg-white flex-1 h-full rounded-l-[2.5rem] shadow-[-10px_0_30px_rgba(0,0,0,0.15)] overflow-y-auto custom-scrollbar flex flex-col relative z-0">
-        
-        <div class="px-6 lg:px-10 py-8 max-w-7xl mx-auto w-full flex-1">
-            
-            <!-- Header -->
-                <header class="flex justify-between items-center mb-10">
-                    <h1 class="text-3xl font-bold text-gray-900">Overview</h1>
-                    
-                    <div class="flex items-center space-x-6">
-                        <!-- Search -->
-                        <div class="relative">
-                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            <input type="text" placeholder="Search..." class="bg-gray-50 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-200 w-48 transition-all">
-                        </div>
-                        
-                        <!-- Notifications -->
-                        <button class="relative text-gray-400 hover:text-gray-700">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+        <main class="main-panel custom-scrollbar flex min-w-0 flex-1 flex-col overflow-y-auto rounded-l-[38px] bg-white" id="overview">
+            <div class="mx-auto w-full max-w-[1440px] flex-1 px-5 py-6 sm:px-8 sm:py-8 lg:px-10">
+                <header class="mb-8 flex items-center justify-between gap-4">
+                    <div>
+                        <p class="mb-1 text-xs font-semibold uppercase tracking-[.18em] text-slate-400">Your command center</p>
+                        <h1 class="font-display text-2xl font-bold tracking-tight sm:text-3xl">Overview</h1>
+                    </div>
+                    <div class="flex items-center gap-3 sm:gap-5">
+                        <label class="relative hidden sm:block">
+                            <span class="sr-only">Search opportunities</span>
+                            <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                            <input id="search-input" type="search" placeholder="Search leads" class="w-44 rounded-full bg-slate-50 py-2.5 pl-9 pr-4 text-sm outline-none ring-0 transition focus:bg-white focus:ring-2 focus:ring-slate-200 lg:w-56">
+                        </label>
+                        <button id="refresh-button" class="rounded-full p-2 text-slate-400 transition hover:bg-slate-50 hover:text-ink" aria-label="Refresh leads" title="Refresh leads">
+                            <svg class="refresh-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0-14.9-3M4 5v4h4M4 13a8.1 8.1 0 0 0 14.9 3M20 19v-4h-4"/></svg>
                         </button>
-                        
-                        <!-- Profile -->
-                        <div class="flex items-center space-x-3 bg-gray-50 py-1.5 px-3 rounded-full cursor-pointer hover:bg-gray-100 transition-colors">
-                            <img src="https://ui-avatars.com/api/?name=Aashu&background=0D8ABC&color=fff&rounded=true" alt="Profile" class="w-8 h-8 rounded-full">
-                            <span class="text-sm font-medium text-gray-700">Aashu M.</span>
-                            <svg class="text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        <div class="hidden items-center gap-2 rounded-full bg-slate-50 py-1.5 pl-1.5 pr-3 sm:flex">
+                            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-xs font-bold text-white">AM</div>
+                            <span class="text-sm font-semibold text-slate-700">Aashu M.</span>
+                            <svg class="text-slate-400" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
                         </div>
                     </div>
                 </header>
 
-                <!-- Section Titles -->
-                <div class="grid grid-cols-12 gap-8 mb-4">
-                    <div class="col-span-12 lg:col-span-6">
-                        <h2 class="text-lg font-semibold text-gray-900">Gig Pipeline</h2>
+                <section id="analytics" class="mb-9">
+                    <div class="mb-3 flex items-center justify-between">
+                        <h2 class="font-display text-base font-bold sm:text-lg">Pipeline health</h2>
+                        <span id="last-updated" class="text-xs font-medium text-slate-400">Waiting for sync</span>
                     </div>
-                    <div class="col-span-12 lg:col-span-6 flex justify-between items-center">
-                        <h2 class="text-lg font-semibold text-gray-900">Top Tech Stacks</h2>
-                        <button class="text-gray-400 hover:text-gray-700">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="21" y1="18" x2="3" y2="18"></line></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Top Row: Chart and Metric Cards -->
-                <div class="grid grid-cols-12 gap-6 mb-10">
-                    
-                    <!-- Chart Card -->
-                    <div class="col-span-12 lg:col-span-6 bg-card-blue rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between shadow-sm">
-                        <div class="flex justify-between items-start z-10 mb-6">
-                            <div>
-                                <h3 class="text-3xl font-bold text-gray-900 mb-1">1,483</h3>
-                                <p class="text-sm text-gray-600 font-medium">Total Gigs Scraped</p>
-                            </div>
-                            <div class="bg-gray-900 text-white px-3 py-1.5 rounded-full text-xs font-medium flex items-center shadow-lg">
-                                <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                                Live Sync
-                            </div>
-                        </div>
-                        
-                        <div class="flex-grow w-full relative z-10 h-32">
-                            <canvas id="pipelineChart"></canvas>
-                        </div>
-
-                        <div class="flex space-x-4 text-xs font-medium text-gray-400 mt-4 z-10">
-                            <span class="cursor-pointer hover:text-gray-800 transition">1H</span>
-                            <span class="cursor-pointer hover:text-gray-800 transition">24H</span>
-                            <span class="text-gray-900 font-bold cursor-pointer">1W</span>
-                            <span class="cursor-pointer hover:text-gray-800 transition">1M</span>
-                            <span class="cursor-pointer hover:text-gray-800 transition">1Y</span>
-                            <span class="cursor-pointer hover:text-gray-800 transition">ALL</span>
-                        </div>
-                    </div>
-
-                    <!-- Tech Stack Cards -->
-                    <div class="col-span-12 lg:col-span-6 grid grid-cols-3 gap-4">
-                        
-                        <!-- FastAPI Card -->
-                        <div class="bg-card-purple rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
-                            <div class="flex justify-between items-start">
+                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+                        <article class="soft-card relative min-h-[220px] overflow-hidden rounded-[25px] bg-mist p-5 sm:p-6 lg:col-span-6">
+                            <div class="relative z-10 flex items-start justify-between">
                                 <div>
-                                    <h4 class="text-xl font-bold text-gray-900 mb-1">142</h4>
-                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
+                                    <p class="mb-2 text-sm font-medium text-slate-500">Total opportunities</p>
+                                    <p id="total-leads" class="font-display text-4xl font-bold tracking-tight">—</p>
                                 </div>
-                                <button class="text-gray-400 hover:text-gray-700">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                </button>
+                                <span id="sync-status" class="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-[11px] font-semibold text-white"><i class="h-1.5 w-1.5 rounded-full bg-emerald-400"></i>Live sync</span>
                             </div>
-                            <div class="flex justify-between items-end mt-8">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
-                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">FA</span>
-                                </div>
-                                <span class="text-xs font-semibold text-green-600 bg-white/50 px-2 py-1 rounded-md">+ 12.4%</span>
+                            <div class="pointer-events-none absolute -bottom-1 left-0 right-0 h-[112px] opacity-80" aria-hidden="true">
+                                <svg id="pipeline-chart" class="h-full w-full" viewBox="0 0 600 135" preserveAspectRatio="none"></svg>
                             </div>
-                        </div>
+                            <div class="absolute bottom-5 left-6 right-6 z-10 flex justify-between text-[10px] font-bold tracking-wider text-slate-400"><span>MON</span><span>WED</span><span>FRI</span><span>SUN</span></div>
+                        </article>
 
-                        <!-- SQLAlchemy Card -->
-                        <div class="bg-card-green rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="text-xl font-bold text-gray-900 mb-1">86</h4>
-                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-gray-700">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                </button>
-                            </div>
-                            <div class="flex justify-between items-end mt-8">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
-                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">SA</span>
-                                </div>
-                                <span class="text-xs font-semibold text-green-600 bg-white/50 px-2 py-1 rounded-md">+ 8.1%</span>
-                            </div>
+                        <div id="stack" class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:col-span-6">
+                            <article class="soft-card flex min-h-[220px] flex-col justify-between rounded-[25px] bg-lavender p-5">
+                                <div><p class="mb-2 text-xs font-semibold text-slate-500">High matches</p><p id="high-score" class="font-display text-2xl font-bold">—</p></div>
+                                <div class="flex items-end justify-between"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-violet-700 shadow-sm">4+</span><span class="text-xs font-bold text-violet-700">score</span></div>
+                            </article>
+                            <article class="soft-card flex min-h-[220px] flex-col justify-between rounded-[25px] bg-sage p-5">
+                                <div><p class="mb-2 text-xs font-semibold text-slate-500">Avg. score</p><p id="average-score" class="font-display text-2xl font-bold">—</p></div>
+                                <div class="flex items-end justify-between"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-emerald-700 shadow-sm">★</span><span class="text-xs font-bold text-emerald-700">/ 10</span></div>
+                            </article>
+                            <article class="soft-card flex min-h-[220px] flex-col justify-between rounded-[25px] bg-butter p-5">
+                                <div><p class="mb-2 text-xs font-semibold text-slate-500">Sources</p><p id="source-count" class="font-display text-2xl font-bold">—</p></div>
+                                <div class="flex items-end justify-between"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-amber-700 shadow-sm">↗</span><span class="text-xs font-bold text-amber-700">active</span></div>
+                            </article>
+                            <article class="soft-card flex min-h-[220px] flex-col justify-between rounded-[25px] bg-slate-100 p-5">
+                                <div><p class="mb-2 text-xs font-semibold text-slate-500">Top stack</p><p id="top-stack" class="line-clamp-1 font-display text-2xl font-bold">—</p></div>
+                                <div class="flex items-end justify-between"><span class="flex h-9 w-9 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-700 shadow-sm">⌘</span><span id="top-stack-count" class="text-xs font-bold text-slate-500">— leads</span></div>
+                            </article>
                         </div>
-
-                        <!-- SQLite Card -->
-                        <div class="bg-card-yellow rounded-3xl p-5 flex flex-col justify-between shadow-sm hover:-translate-y-1 transition-transform cursor-pointer">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <h4 class="text-xl font-bold text-gray-900 mb-1">54</h4>
-                                    <p class="text-xs text-gray-600 font-medium">Active Gigs</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-gray-700">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                </button>
-                            </div>
-                            <div class="flex justify-between items-end mt-8">
-                                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm">
-                                    <span class="font-bold text-gray-800 text-xs text-center leading-none mt-1">SQ</span>
-                                </div>
-                                <span class="text-xs font-semibold text-gray-500 bg-white/50 px-2 py-1 rounded-md">- 0.4%</span>
-                            </div>
-                        </div>
-
                     </div>
-                </div>
+                </section>
 
-                <!-- Bottom Row: Table and Automation Banner -->
-                <!-- Bottom Row: Table and Automation Banner -->
-                <div class="flex flex-col space-y-8">
-                    
-                    <!-- Data Table (Now Full Width) -->
-                    <div class="w-full">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold text-gray-900">Latest Opportunities</h2>
-                            <div class="flex space-x-3">
-                                <span class="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 flex items-center">
-                                    Score: 4+ <svg class="ml-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </span>
-                                <span class="text-sm font-medium text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100 cursor-pointer hover:bg-gray-100 flex items-center">
-                                    Top Matches <svg class="ml-1" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </span>
-                            </div>
+                <section id="opportunities" class="pb-10">
+                    <div class="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                        <div>
+                            <h2 class="font-display text-xl font-bold tracking-tight">Latest opportunities</h2>
+                            <p class="mt-1 text-sm text-slate-400">Fresh GitHub issues matched to your skill matrix.</p>
                         </div>
-
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-text-muted text-xs font-medium uppercase tracking-wider border-b border-gray-100">
-                                    <th class="pb-3 pl-2">Name</th>
-                                    <th class="pb-3">Source</th>
-                                    <th class="pb-3">Tech Stack</th>
-                                    <th class="pb-3 text-center">Score</th>
-                                    <th class="pb-3 text-right pr-4">Save</th>
-                                </tr>
-                            </thead>
-                            <tbody id="leads-table-body" class="divide-y divide-gray-50">
-                                <!-- JavaScript will populate this -->
-                            </tbody>
-                        </table>
-
-                        <div class="flex justify-between items-center mt-6 border-t border-gray-100 pt-4 pb-2">
-                            <span class="text-sm font-medium text-gray-500" id="pagination-info">Showing 0 entries</span>
-                            <div class="flex space-x-2">
-                                <button id="prev-page" class="px-4 py-1.5 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm">Previous</button>
-                                <button id="next-page" class="px-4 py-1.5 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shadow-sm">Next</button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Automation Promo Banner (Now Horizontal) -->
-                    <div class="w-full">
-                        <div class="bg-app-dark rounded-3xl p-6 lg:px-10 lg:py-8 text-white relative overflow-hidden flex flex-col lg:flex-row justify-between items-center shadow-xl">
-                            <!-- Background Abstract shapes -->
-                            <svg class="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4 opacity-20" width="200" height="200" viewBox="0 0 200 200" fill="none">
-                                <path d="M50 0L200 150V200H0V50L50 0Z" fill="white"/>
-                                <circle cx="150" cy="50" r="40" stroke="white" stroke-width="2"/>
-                            </svg>
-
-                            <div class="relative z-10 flex-1 mb-6 lg:mb-0">
-                                <div class="inline-block border border-gray-600 bg-gray-800/50 rounded-full px-3 py-1 text-xs font-medium text-gray-300 mb-3 flex items-center w-max backdrop-blur-sm">
-                                    <span class="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></span>
-                                    Engine Active
-                                </div>
-                                <h3 class="text-xl font-bold mb-2">
-                                    Automate your <span class="border-2 border-dashed border-gray-400 rounded-lg px-2 py-0.5">gig hunt</span>
-                                </h3>
-                                <p class="text-sm text-gray-400 font-medium max-w-2xl">
-                                    APScheduler background tasks are actively monitoring GitHub for issues matching your FastAPI and SQLite skill matrix.
-                                </p>
-                            </div>
-                            
-                            <div class="relative z-10 lg:ml-8 w-full lg:w-auto">
-                                <button class="bg-card-blue text-blue-900 font-semibold py-3 px-8 rounded-full w-full lg:w-max hover:bg-white transition-colors shadow-lg shadow-blue-900/20 whitespace-nowrap">
-                                    Force Sync Now
-                                </button>
-                            </div>
+                        <div class="flex gap-2">
+                            <label class="sr-only" for="score-filter">Filter by score</label>
+                            <select id="score-filter" class="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600 outline-none focus:border-slate-300">
+                                <option value="all">All scores</option>
+                                <option value="4">Score 4+</option>
+                                <option value="7">Score 7+</option>
+                            </select>
+                            <label class="sr-only" for="sort-select">Sort leads</label>
+                            <select id="sort-select" class="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600 outline-none focus:border-slate-300">
+                                <option value="newest">Newest first</option>
+                                <option value="score">Highest score</option>
+                                <option value="oldest">Oldest first</option>
+                            </select>
                         </div>
                     </div>
 
-                </div>
+                    <div class="soft-card overflow-hidden rounded-[25px] border border-slate-100 bg-white">
+                        <div class="table-wrap overflow-x-auto">
+                            <table class="leads-table w-full text-left">
+                                <thead class="border-b border-slate-100 bg-slate-50/60 text-[10px] font-bold uppercase tracking-[.14em] text-slate-400">
+                                    <tr><th class="px-5 py-4">Opportunity</th><th class="px-4 py-4">Source</th><th class="px-4 py-4">Tech stack</th><th class="px-4 py-4 text-center">Match</th><th class="px-5 py-4 text-right">Open</th></tr>
+                                </thead>
+                                <tbody id="leads-table-body" class="divide-y divide-slate-50"></tbody>
+                            </table>
+                        </div>
+                        <div class="flex flex-col gap-3 border-t border-slate-100 px-5 py-4 text-xs font-medium text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+                            <span id="pagination-info">No opportunities yet</span>
+                            <div class="flex gap-2"><button id="prev-page" class="rounded-lg border border-slate-200 px-3 py-1.5 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Previous</button><button id="next-page" class="rounded-lg border border-slate-200 px-3 py-1.5 font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Next</button></div>
+                        </div>
+                    </div>
+                </section>
 
+                <section class="relative overflow-hidden rounded-[25px] bg-ink p-6 text-white shadow-xl shadow-slate-300/30 sm:p-8">
+                    <div class="relative z-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+                        <div>
+                            <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-300"><i class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></i> Engine active</div>
+                            <h2 class="font-display text-xl font-bold sm:text-2xl">Keep your opportunity radar on.</h2>
+                            <p class="mt-2 max-w-xl text-sm leading-6 text-slate-400">LeadSense checks GitHub in the background, scores every new issue, and brings the best matches into one focused pipeline.</p>
+                        </div>
+                        <button id="sync-button" class="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-mist px-5 py-3 text-sm font-bold text-slate-900 transition hover:bg-white disabled:cursor-wait disabled:opacity-70"><svg class="sync-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 11a8.1 8.1 0 0 0-14.9-3M4 5v4h4M4 13a8.1 8.1 0 0 0 14.9 3M20 19v-4h-4"/></svg><span>Force sync now</span></button>
+                    </div>
+                    <svg class="pointer-events-none absolute -right-8 -top-20 opacity-10" width="300" height="300" viewBox="0 0 300 300" fill="none" aria-hidden="true"><circle cx="150" cy="150" r="105" stroke="white" stroke-width="2"/><circle cx="150" cy="150" r="145" stroke="white"/><path d="m30 245 220-190M115 300 300 115" stroke="white" stroke-width="2"/></svg>
+                </section>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
+
+    <div id="toast" class="toast fixed bottom-5 right-5 z-50 rounded-2xl bg-ink px-4 py-3 text-sm font-semibold text-white shadow-2xl" role="status"></div>
 
     <script>
+        const API_BASE = window.LEADSENSE_API_URL || 'http://127.0.0.1:8000';
+        const ROWS_PER_PAGE = 8;
         let allLeads = [];
+        let filteredLeads = [];
         let currentPage = 1;
-        const rowsPerPage = 10;
+        let toastTimer;
 
-        async function loadLeadSenseData() {
-            try {
-                const response = await fetch('http://127.0.0.1:8000/leads'); 
-                allLeads = await response.json();
-                renderTable();
-            } catch (error) {
-                console.error("API error:", error);
-                document.getElementById('leads-table-body').innerHTML = '<tr><td colspan="5" class="py-8 text-red-500 text-center font-medium">Failed to connect to backend.</td></tr>';
-            }
+        const $ = (id) => document.getElementById(id);
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+        }
+
+        function techStack(lead) {
+            if (Array.isArray(lead.tech_stack)) return lead.tech_stack;
+            try { return JSON.parse(lead.tech_stack || '[]'); } catch { return lead.tech_stack ? [lead.tech_stack] : []; }
+        }
+
+        function scoreOf(lead) { return Number(lead.comfort_score ?? lead.score ?? 0); }
+
+        function formatDate(value) {
+            if (!value) return 'Recently';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return 'Recently';
+            return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' }).format(date);
+        }
+
+        function scoreTone(score) {
+            if (score >= 7) return 'bg-emerald-50 text-emerald-700';
+            if (score >= 4) return 'bg-amber-50 text-amber-700';
+            return 'bg-slate-100 text-slate-500';
+        }
+
+        function showToast(message) {
+            const toast = $('toast');
+            toast.textContent = message;
+            toast.classList.add('visible');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('visible'), 3200);
+        }
+
+        function renderChart() {
+            const chart = $('pipeline-chart');
+            const points = [38, 57, 46, 78, 62, 82, 70, 112, 86, 98, 78, 121, 96, 116, 108, 130];
+            const max = Math.max(...points);
+            const coordinates = points.map((point, index) => `${(index / (points.length - 1)) * 600},${135 - (point / max) * 95}`).join(' ');
+            chart.innerHTML = `<defs><linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#74b2dc" stop-opacity=".32"/><stop offset="1" stop-color="#74b2dc" stop-opacity="0"/></linearGradient></defs><polyline points="0,135 ${coordinates} 600,135" fill="url(#chart-fill)" stroke="none"/><polyline points="${coordinates}" fill="none" stroke="#4d98c8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+        }
+
+        function renderStats() {
+            const count = allLeads.length;
+            const scores = allLeads.map(scoreOf);
+            const highMatches = scores.filter((score) => score >= 4).length;
+            const average = count ? (scores.reduce((sum, score) => sum + score, 0) / count).toFixed(1) : '0.0';
+            const sources = new Set(allLeads.map((lead) => lead.source).filter(Boolean)).size;
+            const stacks = {};
+            allLeads.forEach((lead) => techStack(lead).forEach((stack) => { stacks[stack] = (stacks[stack] || 0) + 1; }));
+            const top = Object.entries(stacks).sort((a, b) => b[1] - a[1])[0];
+            $('total-leads').textContent = count.toLocaleString();
+            $('high-score').textContent = highMatches.toLocaleString();
+            $('average-score').textContent = average;
+            $('source-count').textContent = sources.toLocaleString();
+            $('top-stack').textContent = top ? top[0] : '—';
+            $('top-stack-count').textContent = top ? `${top[1]} lead${top[1] === 1 ? '' : 's'}` : 'No data';
+        }
+
+        function applyFilters() {
+            const query = $('search-input')?.value.trim().toLowerCase() || '';
+            const minimumScore = Number($('score-filter').value) || 0;
+            const sort = $('sort-select').value;
+            filteredLeads = allLeads.filter((lead) => {
+                const stack = techStack(lead).join(' ');
+                const haystack = `${lead.title} ${lead.author || ''} ${lead.source || ''} ${stack}`.toLowerCase();
+                return scoreOf(lead) >= minimumScore && haystack.includes(query);
+            });
+            filteredLeads.sort((a, b) => {
+                if (sort === 'score') return scoreOf(b) - scoreOf(a);
+                const aDate = new Date(a.created_at || 0).getTime();
+                const bDate = new Date(b.created_at || 0).getTime();
+                return sort === 'oldest' ? aDate - bDate : bDate - aDate;
+            });
+            currentPage = 1;
+            renderTable();
         }
 
         function renderTable() {
-            const tableBody = document.getElementById('leads-table-body');
-            tableBody.innerHTML = ''; 
-
-            if (allLeads.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5" class="py-8 text-gray-500 text-center">No gigs found in database.</td></tr>';
-                document.getElementById('pagination-info').innerText = 'Showing 0 entries';
-                return;
+            const body = $('leads-table-body');
+            const start = (currentPage - 1) * ROWS_PER_PAGE;
+            const visible = filteredLeads.slice(start, start + ROWS_PER_PAGE);
+            if (!visible.length) {
+                body.innerHTML = `<tr><td colspan="5" class="px-5 py-14 text-center"><div class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">⌕</div><p class="font-semibold text-slate-600">No matching opportunities</p><p class="mt-1 text-xs text-slate-400">Try changing your search or score filter.</p></td></tr>`;
+            } else {
+                body.innerHTML = visible.map((lead) => {
+                    const stack = techStack(lead);
+                    const score = scoreOf(lead);
+                    const title = escapeHtml(lead.title || 'Untitled opportunity');
+                    const url = escapeHtml(lead.url || '#');
+                    return `<tr class="table-row group"><td class="max-w-[370px] px-5 py-4"><div class="flex items-center gap-3"><div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-xs font-bold text-slate-600">${escapeHtml((lead.source || 'L').slice(0, 2).toUpperCase())}</div><div class="min-w-0"><a href="${url}" target="_blank" rel="noopener noreferrer" class="line-clamp-1 text-sm font-bold text-slate-800 transition group-hover:text-blue-600">${title}</a><p class="mt-1 text-[11px] font-medium text-slate-400">By ${escapeHtml(lead.author || 'Unknown')} <span class="mx-1">·</span> ${formatDate(lead.created_at)}</p></div></div></td><td class="px-4 py-4 text-sm font-semibold text-slate-600">${escapeHtml(lead.source || '—')}</td><td class="max-w-[190px] px-4 py-4"><div class="flex flex-wrap gap-1.5">${stack.slice(0, 3).map((item) => `<span class="rounded-md bg-slate-50 px-2 py-1 text-[10px] font-bold text-slate-500">${escapeHtml(item)}</span>`).join('') || '<span class="text-xs text-slate-400">Uncategorized</span>'}</div></td><td class="px-4 py-4 text-center"><span class="score-pill inline-flex justify-center rounded-full px-2.5 py-1 text-xs font-bold ${scoreTone(score)}">${score}</span></td><td class="px-5 py-4 text-right"><a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-slate-900 hover:bg-slate-900 hover:text-white">View</a></td></tr>`;
+                }).join('');
             }
-
-            // Calculate pagination slice
-            const startIndex = (currentPage - 1) * rowsPerPage;
-            const endIndex = startIndex + rowsPerPage;
-            const paginatedLeads = allLeads.slice(startIndex, endIndex);
-
-            paginatedLeads.forEach(lead => {
-                const row = document.createElement('tr');
-                row.className = "hover:bg-gray-50 transition-colors group";
-                
-                let stack = lead.tech_stack;
-                try { stack = JSON.parse(lead.tech_stack).join(', '); } catch (e) {}
-
-                row.innerHTML = `
-                    <td class="py-4 pl-2 flex items-center">
-                        <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mr-4 text-gray-800">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </div>
-                        <div>
-                            <a href="${lead.url}" target="_blank" class="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">${lead.title}</a>
-                            <div class="flex items-center text-xs text-text-muted mt-1 space-x-2 font-medium">
-                                <!-- We use a fallback 'Unknown' until you add lead.author to your FastAPI backend -->
-                                <span>By ${lead.author || 'Unknown'}</span>
-                                <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
-                                <span>Synced ${new Date(lead.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="py-4 text-sm font-medium text-gray-700">${lead.source}</td>
-                    <td class="py-4 text-xs font-medium text-green-600">${stack}</td>
-                    <td class="py-4 text-center text-sm font-bold text-gray-900">${lead.comfort_score}</td>
-                    <td class="py-4 text-right pr-4">
-                        <button class="text-gray-300 hover:text-yellow-400 transition-colors">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-
-            // Update button states and info text
-            const totalPages = Math.ceil(allLeads.length / rowsPerPage);
-            document.getElementById('pagination-info').innerText = `Showing ${startIndex + 1} to ${Math.min(endIndex, allLeads.length)} of ${allLeads.length} entries`;
-            
-            document.getElementById('prev-page').disabled = currentPage === 1;
-            document.getElementById('next-page').disabled = currentPage >= totalPages;
+            const totalPages = Math.ceil(filteredLeads.length / ROWS_PER_PAGE);
+            $('pagination-info').textContent = filteredLeads.length ? `Showing ${start + 1}–${Math.min(start + ROWS_PER_PAGE, filteredLeads.length)} of ${filteredLeads.length}` : 'No opportunities found';
+            $('prev-page').disabled = currentPage <= 1;
+            $('next-page').disabled = currentPage >= totalPages || totalPages === 0;
         }
 
-        // Attach event listeners for pagination
-        document.getElementById('prev-page').addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
-            }
-        });
+        async function loadLeads(showError = true) {
+            $('refresh-button').classList.add('loading');
+            try {
+                const response = await fetch(`${API_BASE}/leads/`, { headers: { Accept: 'application/json' } });
+                if (!response.ok) throw new Error(`API returned ${response.status}`);
+                allLeads = await response.json();
+                renderStats();
+                applyFilters();
+                $('last-updated').textContent = `Updated ${new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit' }).format(new Date())}`;
+            } catch (error) {
+                console.error('LeadSense API error:', error);
+                if (showError) { showToast('Could not connect to the LeadSense API.'); $('leads-table-body').innerHTML = '<tr><td colspan="5" class="px-5 py-14 text-center text-sm font-semibold text-rose-500">Backend unavailable. Start FastAPI and refresh.</td></tr>'; }
+            } finally { $('refresh-button').classList.remove('loading'); }
+        }
 
-        document.getElementById('next-page').addEventListener('click', () => {
-            const totalPages = Math.ceil(allLeads.length / rowsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
-            }
-        });
+        async function forceSync() {
+            const button = $('sync-button');
+            button.classList.add('loading');
+            button.disabled = true;
+            button.querySelector('span').textContent = 'Syncing GitHub…';
+            try {
+                const response = await fetch(`${API_BASE}/leads/sync?keyword=fastapi`, { method: 'POST', headers: { Accept: 'application/json' } });
+                if (!response.ok) throw new Error(`Sync returned ${response.status}`);
+                const added = await response.json();
+                await loadLeads(false);
+                showToast(`${added.length} new opportunit${added.length === 1 ? 'y' : 'ies'} added.`);
+            } catch (error) { console.error('Sync error:', error); showToast('Sync failed. Check that the backend is running.'); }
+            finally { button.classList.remove('loading'); button.disabled = false; button.querySelector('span').textContent = 'Force sync now'; }
+        }
 
-        // Boot up
-        document.addEventListener('DOMContentLoaded', loadLeadSenseData);
+        $('search-input').addEventListener('input', applyFilters);
+        $('score-filter').addEventListener('change', applyFilters);
+        $('sort-select').addEventListener('change', applyFilters);
+        $('prev-page').addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderTable(); } });
+        $('next-page').addEventListener('click', () => { if (currentPage < Math.ceil(filteredLeads.length / ROWS_PER_PAGE)) { currentPage++; renderTable(); } });
+        $('refresh-button').addEventListener('click', () => loadLeads());
+        $('sync-button').addEventListener('click', forceSync);
+        renderChart();
+        loadLeads();
     </script>
 </body>
 </html>
